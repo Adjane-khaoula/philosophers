@@ -6,14 +6,14 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 11:44:50 by kadjane           #+#    #+#             */
-/*   Updated: 2022/10/25 12:26:05 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/10/27 18:11:55 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include<stdio.h>
 #include <pthread.h>
 
-void	*routine()
+void	*routine(void *arg)
 {
 	printf("test test \n");
 	return(NULL) ;
