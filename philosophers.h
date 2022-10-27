@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 14:30:58 by kadjane           #+#    #+#             */
-/*   Updated: 2022/10/27 18:50:40 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/10/27 20:34:02 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,23 @@
 typedef struct data_s
 {
 	int				i;
-	pthread_t		philo;
-	pthread_mutex_t	mtx;
 	int				nbr_of_philo;
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				time_to_die;
 	int				nbr_time_each_philo_eat;
+	pthread_mutex_t	print;
 }data_t;
+
+typedef struct philo_s
+{
+	pthread_t		philo;
+	pthread_mutex_t	rfork;
+	pthread_mutex_t	*lfork;
+	pthread_mutex_t	last_eat;
+	pthread_mutex_t	is_eat;
+	data_t			*data;
+}	philo_t;
 
 int	ft_atoi(char *str);
 void	ft_putstr(char *str);
