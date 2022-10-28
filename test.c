@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 11:44:50 by kadjane           #+#    #+#             */
-/*   Updated: 2022/10/27 18:11:55 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/10/28 14:57:49 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,11 @@ void	*routine(void *arg)
 
 int main()
 {
+	pthread_mutex_t mtx , mt;
 	pthread_t	t, t1;
+
+	pthread_mutex_init(&mtx, NULL);
+	
 	if(pthread_create(&t, NULL, &routine, NULL) != 0)
 		return 1;
 	pthread_create(&t1, NULL, &routine, NULL);
