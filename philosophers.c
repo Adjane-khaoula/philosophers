@@ -6,52 +6,68 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 14:35:24 by kadjane           #+#    #+#             */
-/*   Updated: 2022/10/28 16:23:38 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/10/29 18:38:20 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
+void	ft_usleep(int time)
+{
+	int	i;
+
+	i = 10;
+	while(i <= time)
+	{
+		usleep(10);
+		i += 10;
+	}
+	if (i > time)
+		usleep(time % 10);
+}
+
 void	*routine(void *philosophers)
 {
-	philo_t	*philosopher;
+	t_philo	*philosopher;
 
-	philosopher = (philo_t *)philosophers;
-	if(pthread_mutex_lock(&(philosopher->data->forks[philosopher->id])) == 0 &&
-		pthread_mutex_lock(&(philosopher->data->forks[(philosopher->id + 1)
-						% philosopher->data->nbr_of_philo])) == 0)
-				{
-					printf("%d is eating",philosopher->id);
-					sleep(1);
-				}
-	// pthread_mutex_unlock(&(philosopher->data->forks[philosopher->id]));
-	// pthread_mutex_unlock(&(philosopher->data->forks[(philosopher->id + 1)
-	// 					% philosopher->data->nbr_of_philo]));
+	philosopher = (t_philo *)philosophers;
+	eat(philosopher);
+	ft_sleep_think(philosopher);
 	return(0);
 }
 
-void	create_philosophers(philo_t *philosophers,data_t *data)
+void	create_philosophers(t_philo *philosophers,t_data *data)
 {
 	int	i;
 
 	i = -1;
+	pthread_mutex_init(&(data->print), NULL);
 	while (++i < data->nbr_of_philo)
 	{
 		pthread_mutex_init(&(data->forks[i]),NULL);
 		philosophers[i].id = i + 1;
 		philosophers[i].data = data;
+		philosophers[i].start_time = get_time();
+	}
+	i = -1;
+	while(++i < data->nbr_of_philo)
+	{
 		if (pthread_create(&(philosophers[i].philo), NULL, &routine, &(philosophers[i])) != 0)
 			return ;
-		if(pthread_join(philosophers[i].philo, NULL))
+	}
+	i = -1;
+	while(++i < data->nbr_of_philo)
+	{
+		if(pthread_join(philosophers[i].philo, NULL) !=0)
 			return ;
 	}
+	// usleep(50);
 }
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
-	// struct timeval current_time;
-	data_t	*data;
-	philo_t	*philosophers;
+	t_data	*data;
+	t_philo	*philosophers;
 	
 	if (ac == 5)
 	{
@@ -63,12 +79,12 @@ int main(int ac, char **av)
 				return(0);
 			}
 		}
-		data = malloc(sizeof(data_t));
+		data = malloc(sizeof(t_data));
 		data->nbr_of_philo= ft_atoi(av[1]);
 		data->time_to_die = ft_atoi(av[2]);
 		data->time_to_eat = ft_atoi(av[3]);
 		data->time_to_sleep = ft_atoi(av[4]);
-		philosophers = malloc(sizeof(philo_t ) * (data->nbr_of_philo));
+		philosophers = malloc(sizeof(t_philo) * (data->nbr_of_philo));
 		data->forks = malloc(sizeof(pthread_mutex_t) * data->nbr_of_philo);
 		create_philosophers(philosophers, data);
 	}
@@ -77,6 +93,4 @@ int main(int ac, char **av)
 		ft_putstr("check you parameters");
 		return (0);
 	}
-	// gettimeofday(&current_time, NULL);
-	//   printf("seconds : %ld\nmicro seconds : %d",current_time.tv_sec, current_time.tv_usec);
 }

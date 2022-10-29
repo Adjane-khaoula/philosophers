@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 14:30:58 by kadjane           #+#    #+#             */
-/*   Updated: 2022/10/28 16:02:05 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/10/29 18:33:53 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,9 @@
 # include <pthread.h>
 # include <sys/time.h>
 
-typedef struct data_s
+typedef struct s_data
 {
+	int				i;
 	int				nbr_of_philo;
 	int				time_to_eat;
 	int				time_to_sleep;
@@ -27,20 +28,27 @@ typedef struct data_s
 	int				nbr_time_each_philo_eat;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print;
-}	data_t;
+}	t_data;
 
-typedef struct philo_s
+typedef struct s_philo
 {
 	pthread_t		philo;
 	int				id;
+	int				start_time;
 	pthread_mutex_t	last_eat;
 	pthread_mutex_t	is_eat;
-	data_t			*data;
-}	philo_t;
+	t_data			*data;
+}	t_philo;
 
 int		ft_atoi(char *str);
 void	ft_putstr(char *str);
 int		ft_strlen(char *str);
 int		ft_strcmp(char *s1, char *s2);
+void	eat(t_philo *philosopher);
+void	ft_sleep(t_philo *philosopher);
+void	think(t_philo *philosopher);
+int		get_time();
+void	ft_usleep(int time);
+void	ft_sleep_think(t_philo *philosopher);
 
 #endif
