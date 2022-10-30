@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 14:35:24 by kadjane           #+#    #+#             */
-/*   Updated: 2022/10/29 18:38:20 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/10/31 00:08:21 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,14 @@
 
 void	ft_usleep(int time)
 {
-	int	i;
-
-	i = 10;
-	while(i <= time)
-	{
-		usleep(10);
-		i += 10;
-	}
-	if (i > time)
-		usleep(time % 10);
+	
 }
 
 void	*routine(void *philosophers)
 {
 	t_philo	*philosopher;
-
+	
+	printf("hello philo\n");
 	philosopher = (t_philo *)philosophers;
 	eat(philosopher);
 	ft_sleep_think(philosopher);
@@ -54,6 +46,7 @@ void	create_philosophers(t_philo *philosophers,t_data *data)
 	{
 		if (pthread_create(&(philosophers[i].philo), NULL, &routine, &(philosophers[i])) != 0)
 			return ;
+		// usleep(50);
 	}
 	i = -1;
 	while(++i < data->nbr_of_philo)
@@ -61,7 +54,6 @@ void	create_philosophers(t_philo *philosophers,t_data *data)
 		if(pthread_join(philosophers[i].philo, NULL) !=0)
 			return ;
 	}
-	// usleep(50);
 }
 
 int	main(int ac, char **av)
