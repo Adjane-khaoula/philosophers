@@ -6,24 +6,23 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 14:35:24 by kadjane           #+#    #+#             */
-/*   Updated: 2022/10/31 13:22:52 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/10/31 23:09:52 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-// void	ft_usleep(int time)
-// {
-	
-// }
 
 void	*routine(void *philosophers)
 {
 	t_philo	*philosopher;
-	
+
 	philosopher = (t_philo *)philosophers;
-	eat(philosopher);
-	ft_sleep_think(philosopher);
+	// while(1)
+	// {
+		eat(philosopher);
+		ft_sleep_think(philosopher);
+	// }
 	return(0);
 }
 
@@ -35,12 +34,13 @@ void	create_philosophers(t_philo *philosophers,t_data *data)
 	i = -1;
 	gettimeofday(&current_time, NULL);
 	pthread_mutex_init(&(data->print), NULL);
+	pthread_mutex_init(&(data->last_eat), NULL);
+	data->start_time = (current_time.tv_sec * 1000 + current_time.tv_usec / 1000);
 	while (++i < data->nbr_of_philo)
 	{
 		pthread_mutex_init(&(data->forks[i]),NULL);
 		philosophers[i].id = i + 1;
 		philosophers[i].data = data;
-		philosophers[i].start_time = (current_time.tv_sec * 1000 + current_time.tv_usec / 1000);
 	}
 	i = -1;
 	while(++i < data->nbr_of_philo)
@@ -79,7 +79,14 @@ int	main(int ac, char **av)
 		data->time_to_sleep = ft_atoi(av[4]);
 		philosophers = malloc(sizeof(t_philo) * (data->nbr_of_philo));
 		data->forks = malloc(sizeof(pthread_mutex_t) * data->nbr_of_philo);
+		data->last_time_eat = 0;
 		create_philosophers(philosophers, data);
+	
+		// while (1)
+		// {
+		// 	if(data->last_time_eat > data->time_to_die)
+		// 		return (0);
+		// }
 	}
 	else
 	{
