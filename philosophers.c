@@ -6,22 +6,21 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 14:35:24 by kadjane           #+#    #+#             */
-/*   Updated: 2022/10/31 00:08:21 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/10/31 13:22:52 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	ft_usleep(int time)
-{
+// void	ft_usleep(int time)
+// {
 	
-}
+// }
 
 void	*routine(void *philosophers)
 {
 	t_philo	*philosopher;
 	
-	printf("hello philo\n");
 	philosopher = (t_philo *)philosophers;
 	eat(philosopher);
 	ft_sleep_think(philosopher);
@@ -31,22 +30,24 @@ void	*routine(void *philosophers)
 void	create_philosophers(t_philo *philosophers,t_data *data)
 {
 	int	i;
+	struct timeval	current_time;
 
 	i = -1;
+	gettimeofday(&current_time, NULL);
 	pthread_mutex_init(&(data->print), NULL);
 	while (++i < data->nbr_of_philo)
 	{
 		pthread_mutex_init(&(data->forks[i]),NULL);
 		philosophers[i].id = i + 1;
 		philosophers[i].data = data;
-		philosophers[i].start_time = get_time();
+		philosophers[i].start_time = (current_time.tv_sec * 1000 + current_time.tv_usec / 1000);
 	}
 	i = -1;
 	while(++i < data->nbr_of_philo)
 	{
 		if (pthread_create(&(philosophers[i].philo), NULL, &routine, &(philosophers[i])) != 0)
 			return ;
-		// usleep(50);
+		usleep(50);
 	}
 	i = -1;
 	while(++i < data->nbr_of_philo)

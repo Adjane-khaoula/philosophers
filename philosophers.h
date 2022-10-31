@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 14:30:58 by kadjane           #+#    #+#             */
-/*   Updated: 2022/10/30 20:45:38 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/10/31 12:55:05 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	eat(t_philo *philosopher);
 void	ft_sleep(t_philo *philosopher);
 void	think(t_philo *philosopher);
 int		get_time();
-void	ft_usleep(int time);
+void	ft_usleep(int time, t_philo *philosopher);
 void	ft_sleep_think(t_philo *philosopher);
 
 #endif
