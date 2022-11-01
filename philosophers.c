@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 14:35:24 by kadjane           #+#    #+#             */
-/*   Updated: 2022/10/31 23:09:52 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/02 00:44:51 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,12 @@ void	*routine(void *philosophers)
 	t_philo	*philosopher;
 
 	philosopher = (t_philo *)philosophers;
-	// while(1)
-	// {
+	while(1)
+	{
 		eat(philosopher);
 		ft_sleep_think(philosopher);
-	// }
+		
+	}
 	return(0);
 }
 
@@ -40,6 +41,8 @@ void	create_philosophers(t_philo *philosophers,t_data *data)
 	{
 		pthread_mutex_init(&(data->forks[i]),NULL);
 		philosophers[i].id = i + 1;
+		philosophers[i].last_time_eat = 0;
+		philosophers[i].eat = 0;
 		philosophers[i].data = data;
 	}
 	i = -1;
@@ -49,18 +52,13 @@ void	create_philosophers(t_philo *philosophers,t_data *data)
 			return ;
 		usleep(50);
 	}
-	i = -1;
-	while(++i < data->nbr_of_philo)
-	{
-		if(pthread_join(philosophers[i].philo, NULL) !=0)
-			return ;
-	}
 }
 
 int	main(int ac, char **av)
 {
 	t_data	*data;
 	t_philo	*philosophers;
+	int	i;
 	
 	if (ac == 5)
 	{
@@ -79,18 +77,35 @@ int	main(int ac, char **av)
 		data->time_to_sleep = ft_atoi(av[4]);
 		philosophers = malloc(sizeof(t_philo) * (data->nbr_of_philo));
 		data->forks = malloc(sizeof(pthread_mutex_t) * data->nbr_of_philo);
-		data->last_time_eat = 0;
+		
 		create_philosophers(philosophers, data);
 	
-		// while (1)
-		// {
-		// 	if(data->last_time_eat > data->time_to_die)
-		// 		return (0);
-		// }
+		while (1)
+		{
+			i = -1;
+			while(++i < data->nbr_of_philo)
+			{
+				// printf("-------->%d\n\n\n",(get_time(data) - philosophers[i].last_time_eat));
+				if((get_time(data) - philosophers[i].last_time_eat) > data->time_to_die && philosophers[i].eat == 0)
+				{
+					printf("++++++++++>%d\n",philosophers[i].eat);
+					// printf("**********>%d\n",(philosophers[i].last_time_eat));
+					printf("%d %d died\n",get_time(data),i);
+					return (0);
+				}
+			}
+		}
 	}
+
 	else
 	{
 		ft_putstr("check you parameters");
 		return (0);
+	}
+	i = -1;
+	while(++i < data->nbr_of_philo)
+	{
+		if(pthread_join(philosophers[i].philo, NULL) !=0)
+			return (0) ;
 	}
 }

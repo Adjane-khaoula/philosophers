@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 13:53:46 by kadjane           #+#    #+#             */
-/*   Updated: 2022/10/31 23:09:43 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/02 00:40:59 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,41 +40,41 @@ void	ft_usleep(int time, t_philo *philosopher)
 
 void	eat(t_philo *philosopher)
 {
-	// if (philosopher->data->last_time_eat > philosopher->data->time_to_die)
-	// {
-	// 	pthread_mutex_lock(&(philosopher->data->print));
-	// 	printf("%d %d died\n", get_time(philosopher->data), philosopher->id);
-	// 	pthread_mutex_unlock(&(philosopher->data->print));
-	// 	return(1);
-	// }
-	// else
-	// {
-		pthread_mutex_lock(&(philosopher->data->forks[philosopher->id - 1]));
-		
-		pthread_mutex_lock(&(philosopher->data->print));
-		printf("\033[91m%d %d has taken a fork\033[00m \n",get_time(philosopher->data), philosopher->id);
-		pthread_mutex_unlock(&(philosopher->data->print));
-		
-		pthread_mutex_lock(&(philosopher->data->forks[(philosopher->id)
-							% philosopher->data->nbr_of_philo]));
-		
-		pthread_mutex_lock(&(philosopher->data->print));
-		printf("\033[91m%d %d has taken a fork\033[00m\n\n",get_time(philosopher->data), philosopher->id);
-		pthread_mutex_unlock(&(philosopher->data->print));
-		
-		// pthread_mutex_lock(&(philosopher->data->last_eat));
-		// philosopher->data->last_time_eat = get_time(philosopher->data) + philosopher->data->time_to_eat;
-		// pthread_mutex_unlock(&(philosopher->data->last_eat));
-		
-		pthread_mutex_lock(&(philosopher->data->print));
-		printf("\033[92m%d %d is eating\033[00m\n\n", get_time(philosopher->data), philosopher->id);
-		pthread_mutex_unlock(&(philosopher->data->print));
-		ft_usleep((philosopher->data->time_to_eat), philosopher);
-		pthread_mutex_unlock(&(philosopher->data->forks[philosopher->id - 1]));
-		pthread_mutex_unlock(&(philosopher->data->forks[(philosopher->id)
-					% philosopher->data->nbr_of_philo]));
-	// }
-	// return (0);
+
+	
+	pthread_mutex_lock(&(philosopher->data->forks[philosopher->id - 1]));
+	
+	pthread_mutex_lock(&(philosopher->data->print));
+	printf("\033[91m%d %d has taken a fork\033[00m \n",get_time(philosopher->data), philosopher->id);
+	pthread_mutex_unlock(&(philosopher->data->print));
+	
+	pthread_mutex_lock(&(philosopher->data->forks[(philosopher->id)
+						% philosopher->data->nbr_of_philo]));
+	
+	pthread_mutex_lock(&(philosopher->data->print));
+	printf("\033[91m%d %d has taken a fork\033[00m\n\n",get_time(philosopher->data), philosopher->id);
+	pthread_mutex_unlock(&(philosopher->data->print));
+	
+	pthread_mutex_lock(&(philosopher->data->last_eat));
+	philosopher->last_time_eat = get_time(philosopher->data);
+	philosopher->data->i = philosopher->id;
+	pthread_mutex_unlock(&(philosopher->data->last_eat));
+	
+	// pthread_mutex_lock(&(philosopher->is_eat));
+	philosopher->eat = 1;
+	// pthread_mutex_unlock(&(philosopher->is_eat));
+
+	pthread_mutex_lock(&(philosopher->data->print));
+	printf("\033[92m%d %d is eating\033[00m\n\n", get_time(philosopher->data), philosopher->id);
+	pthread_mutex_unlock(&(philosopher->data->print));
+	
+	ft_usleep((philosopher->data->time_to_eat), philosopher);
+	
+	philosopher->eat = 0;
+	pthread_mutex_unlock(&(philosopher->data->forks[philosopher->id - 1]));
+	pthread_mutex_unlock(&(philosopher->data->forks[(philosopher->id)
+				% philosopher->data->nbr_of_philo]));
+	// philosopher->eat = 0;
 }
 
 void	ft_sleep_think(t_philo *philosopher)

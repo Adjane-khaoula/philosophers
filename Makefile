@@ -6,7 +6,7 @@
 #    By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/02 16:38:04 by kadjane           #+#    #+#              #
-#    Updated: 2022/10/31 13:11:45 by kadjane          ###   ########.fr        #
+#    Updated: 2022/11/01 21:53:37 by kadjane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ OBJS = $(SRCS:.c=.o)
 CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror 
-# -fsanitize=thread -g
+#-fsanitize=thread -g
 
 all: $(NAME)
 
