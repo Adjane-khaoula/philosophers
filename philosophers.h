@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 14:30:58 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/02 00:13:40 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/03 18:55:08 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ typedef struct s_data
 	int				time_to_die;
 	int				nbr_time_each_philo_eat;
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	last_eat;
 	pthread_mutex_t	print;
 	int				start_time;
 }	t_data;
@@ -38,8 +37,9 @@ typedef struct s_philo
 	int				last_time_eat;
 	int				eat;
 	pthread_t		philo;
-	pthread_mutex_t	is_eat;
 	t_data			*data;
+	pthread_mutex_t	last_eat;
+	pthread_mutex_t	is_eat;
 }	t_philo;
 
 int		ft_atoi(char *str);
