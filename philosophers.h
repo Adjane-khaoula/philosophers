@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 14:30:58 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/03 18:55:08 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/04 00:05:51 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,11 @@ typedef struct s_philo
 	int				id;
 	int				last_time_eat;
 	int				eat;
+	int				nbr_times_eat;
 	pthread_t		philo;
 	t_data			*data;
 	pthread_mutex_t	last_eat;
+	pthread_mutex_t	nbr_eat;
 	pthread_mutex_t	is_eat;
 }	t_philo;
 

@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 14:35:24 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/03 19:15:12 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/04 02:15:40 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	*routine(void *philosophers)
 
 void	create_philosophers(t_philo *philosophers,t_data *data)
 {
-	int	i;
+	int				i;
 	struct timeval	current_time;
 
 	i = -1;
@@ -40,10 +40,12 @@ void	create_philosophers(t_philo *philosophers,t_data *data)
 	{
 		pthread_mutex_init(&(philosophers[i].last_eat), NULL);
 		pthread_mutex_init(&(philosophers[i].is_eat), NULL);
+		pthread_mutex_init(&(philosophers[i].nbr_eat), NULL);
 		pthread_mutex_init(&(data->forks[i]),NULL);
 		philosophers[i].id = i + 1;
 		philosophers[i].last_time_eat = 0;
 		philosophers[i].eat = 0;
+		philosophers[i].nbr_times_eat = 0;
 		philosophers[i].data = data;
 	}
 	i = -1;
@@ -61,7 +63,7 @@ int	main(int ac, char **av)
 	t_philo	*philosophers;
 	int		i;
 	
-	if (ac == 5)
+	if (ac == 6)
 	{
 		while (--ac)
 		{
@@ -76,6 +78,7 @@ int	main(int ac, char **av)
 		data->time_to_die = ft_atoi(av[2]);
 		data->time_to_eat = ft_atoi(av[3]);
 		data->time_to_sleep = ft_atoi(av[4]);
+		data->nbr_time_each_philo_eat = ft_atoi(av[5]);
 		philosophers = malloc(sizeof(t_philo) * (data->nbr_of_philo));
 		data->forks = malloc(sizeof(pthread_mutex_t) * data->nbr_of_philo);
 		create_philosophers(philosophers, data);
@@ -86,8 +89,10 @@ int	main(int ac, char **av)
 			{
 				pthread_mutex_lock(&(philosophers[i].last_eat));
 				pthread_mutex_lock(&(philosophers[i].is_eat));
-				if((get_time(data) - philosophers[i].last_time_eat) > data->time_to_die
+				pthread_mutex_lock(&(philosophers[i].nbr_eat));
+				if(((get_time(data) - philosophers[i].last_time_eat) > data->time_to_die
 					&& philosophers[i].eat == 0)
+					|| philosophers[i].nbr_times_eat >= data->nbr_time_each_philo_eat)
 				{
 					pthread_mutex_lock(&(data->print));
 					printf("%d %d died\n",get_time(data),philosophers[i].id);
@@ -95,6 +100,7 @@ int	main(int ac, char **av)
 				}
 				pthread_mutex_unlock(&(philosophers[i].last_eat));
 				pthread_mutex_unlock(&(philosophers[i].is_eat));
+				pthread_mutex_unlock(&(philosophers[i].nbr_eat));
 			}
 		}
 	}

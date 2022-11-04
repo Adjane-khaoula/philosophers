@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 13:53:46 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/03 18:59:50 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/04 02:23:12 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_usleep(int time, t_philo *philosopher)
 
 	current_time = get_time(philosopher->data);
 	time_to_sleep = current_time + time;
-	while(current_time < time_to_sleep)
+	while(current_time <= time_to_sleep)
 	{
 		usleep(150);
 		current_time = get_time(philosopher->data);
@@ -62,12 +62,16 @@ void	eat(t_philo *philosopher)
 	pthread_mutex_lock(&(philosopher->is_eat));
 	philosopher->eat = 1;
 	pthread_mutex_unlock(&(philosopher->is_eat));
+	
 
 	pthread_mutex_lock(&(philosopher->data->print));
 	printf("\033[92m%d %d is eating\033[00m\n\n", get_time(philosopher->data), philosopher->id);
 	pthread_mutex_unlock(&(philosopher->data->print));
-	
 	ft_usleep((philosopher->data->time_to_eat), philosopher);
+	
+	pthread_mutex_lock(&(philosopher->nbr_eat));
+	(philosopher->nbr_times_eat)++;
+	pthread_mutex_unlock(&(philosopher->nbr_eat));
 	
 	pthread_mutex_lock(&(philosopher->is_eat));
 	philosopher->eat = 0;
