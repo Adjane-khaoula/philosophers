@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 18:15:27 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/05 18:17:01 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/05 22:29:55 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ int	ft_die(t_data *data, t_philo *philosophers)
 		pthread_mutex_lock(&(philosophers[i].nbr_eat));
 		if(((get_time(data) - philosophers[i].last_time_eat) > data->time_to_die
 			&& philosophers[i].eat == 0)
-			|| philosophers[i].nbr_times_eat >= data->nbr_time_each_philo_eat)
+			||( philosophers[i].nbr_times_eat >= data->nbr_time_each_philo_eat
+			&& data->nbr_time_each_philo_eat != -1))
 		{
 			pthread_mutex_lock(&(data->print));
 			printf("%d %d died\n",get_time(data),philosophers[i].id);

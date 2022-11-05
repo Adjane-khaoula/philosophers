@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 13:53:46 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/04 02:23:12 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/05 22:07:55 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,12 @@ void	eat(t_philo *philosopher)
 	pthread_mutex_unlock(&(philosopher->data->print));
 	ft_usleep((philosopher->data->time_to_eat), philosopher);
 	
-	pthread_mutex_lock(&(philosopher->nbr_eat));
-	(philosopher->nbr_times_eat)++;
-	pthread_mutex_unlock(&(philosopher->nbr_eat));
+	if (philosopher->data->ac == 6)
+	{
+		pthread_mutex_lock(&(philosopher->nbr_eat));
+		(philosopher->nbr_times_eat)++;
+		pthread_mutex_unlock(&(philosopher->nbr_eat));
+	}
 	
 	pthread_mutex_lock(&(philosopher->is_eat));
 	philosopher->eat = 0;

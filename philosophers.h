@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 14:30:58 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/05 18:18:11 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/05 22:07:00 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 typedef struct s_data
 {
 	int				i;
+	int				ac;
 	int				nbr_of_philo;
 	int				time_to_eat;
 	int				time_to_sleep;
