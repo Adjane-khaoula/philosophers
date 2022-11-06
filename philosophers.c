@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 14:35:24 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/05 22:17:12 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/06 04:53:11 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,16 @@
 
 void	init_data(int ac, char **av, t_data **data)
 {
+	struct timeval	current_time;
+	
+	gettimeofday(&current_time, NULL);
 	(*data) = malloc(sizeof(t_data));
 	(*data)->nbr_of_philo = ft_atoi(av[1]);
 	(*data)->time_to_die = ft_atoi(av[2]);
 	(*data)->time_to_eat = ft_atoi(av[3]);
 	(*data)->time_to_sleep = ft_atoi(av[4]);
+	(*data)->start_time = (current_time.tv_sec * 1000
+			+ current_time.tv_usec / 1000);
 	if (ac == 5)
 		(*data)->nbr_time_each_philo_eat = -1;
 	else
@@ -48,7 +53,7 @@ int	main(int ac, char **av)
 	data = NULL;
 	if (ac == 5 || ac == 6)
 	{
-		if(ft_error(ac, av) == 1)
+		if(ft_error(ac, av) == 1 || !ft_atoi(av[1]) || (ac == 6 && !ft_atoi(av[5])))
 			return (0);
 		init_data(ac, av, &data);
 		philosophers = malloc(sizeof(t_philo) * (data->nbr_of_philo));

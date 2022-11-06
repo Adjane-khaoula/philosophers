@@ -6,27 +6,24 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 18:15:27 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/05 22:29:55 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/06 04:53:40 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	create_philosophers(t_philo *philosophers,t_data *data)
+void	create_philosophers(t_philo *philosophers, t_data *data)
 {
-	int				i;
-	struct timeval	current_time;
+	int	i;
 
 	i = -1;
-	gettimeofday(&current_time, NULL);
 	pthread_mutex_init(&(data->print), NULL);
-	data->start_time = (current_time.tv_sec * 1000 + current_time.tv_usec / 1000);
 	while (++i < data->nbr_of_philo)
 	{
 		pthread_mutex_init(&(philosophers[i].last_eat), NULL);
 		pthread_mutex_init(&(philosophers[i].is_eat), NULL);
 		pthread_mutex_init(&(philosophers[i].nbr_eat), NULL);
-		pthread_mutex_init(&(data->forks[i]),NULL);
+		pthread_mutex_init(&(data->forks[i]), NULL);
 		philosophers[i].id = i + 1;
 		philosophers[i].last_time_eat = 0;
 		philosophers[i].eat = 0;
@@ -34,9 +31,10 @@ void	create_philosophers(t_philo *philosophers,t_data *data)
 		philosophers[i].data = data;
 	}
 	i = -1;
-	while(++i < data->nbr_of_philo)
+	while (++i < data->nbr_of_philo)
 	{
-		if (pthread_create(&(philosophers[i].philo), NULL, &routine, &(philosophers[i])) != 0)
+		if (pthread_create(&(philosophers[i].philo), NULL, &routine,
+				&(philosophers[i])) != 0)
 			return ;
 		usleep(100);
 	}
