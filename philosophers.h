@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 14:30:58 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/05 22:07:00 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/06 23:48:41 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	think(t_philo *philosopher);
 int		get_time(t_data *data);
 void	ft_usleep(int time, t_philo *philosopher);
 void	ft_sleep_think(t_philo *philosopher);
-void	create_philosophers(t_philo *philosophers,t_data *data);
+void	create_philosophers(t_philo *philosophers, t_data *data);
 void	ft_join(t_data *data, t_philo *philosophers);
 int		ft_die(t_data *data, t_philo *philosophers);
 void	*routine(void *philosophers);

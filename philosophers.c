@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 14:35:24 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/06 04:53:11 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/07 06:07:34 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	init_data(int ac, char **av, t_data **data)
 {
 	struct timeval	current_time;
-	
+
 	gettimeofday(&current_time, NULL);
 	(*data) = malloc(sizeof(t_data));
 	(*data)->nbr_of_philo = ft_atoi(av[1]);
@@ -39,7 +39,7 @@ int	ft_error(int ac, char **av)
 		if (ft_atoi(av[ac]) == -1)
 		{
 			ft_putstr("check you parameters");
-			return(1);
+			return (1);
 		}
 	}
 	return (0);
@@ -49,19 +49,20 @@ int	main(int ac, char **av)
 {
 	t_data	*data;
 	t_philo	*philosophers;
-	
+
 	data = NULL;
 	if (ac == 5 || ac == 6)
 	{
-		if(ft_error(ac, av) == 1 || !ft_atoi(av[1]) || (ac == 6 && !ft_atoi(av[5])))
+		if (ft_error(ac, av) == 1 || !ft_atoi(av[1]) || !ft_atoi(av[2])
+			|| (ac == 6 && !ft_atoi(av[5])))
 			return (0);
 		init_data(ac, av, &data);
 		philosophers = malloc(sizeof(t_philo) * (data->nbr_of_philo));
 		create_philosophers(philosophers, data);
 		while (1)
 		{
-			if(ft_die(data, philosophers) == 1)
-				return(0);
+			if (ft_die(data, philosophers) == 1)
+				return (0);
 		}
 	}
 	else
