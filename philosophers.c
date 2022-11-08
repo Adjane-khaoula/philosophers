@@ -6,7 +6,7 @@
 /*   By: kadjane <kadjane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 14:35:24 by kadjane           #+#    #+#             */
-/*   Updated: 2022/11/07 06:07:34 by kadjane          ###   ########.fr       */
+/*   Updated: 2022/11/08 03:46:43 by kadjane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int	main(int ac, char **av)
 			if (ft_die(data, philosophers) == 1)
 				return (0);
 		}
+		ft_join(data, philosophers);
 	}
 	else
 	{
